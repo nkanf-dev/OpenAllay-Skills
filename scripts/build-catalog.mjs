@@ -91,7 +91,7 @@ try {
   }, null, 2)}\n`;
 
   if (check) {
-    compareText(join(repository, "catalog.json"), catalog);
+    compareCatalog(join(repository, "catalog.json"), catalog);
     compareDirectory(packageRoot, generatedPackages);
   } else {
     rmSync(packageRoot, { recursive: true, force: true });
@@ -282,6 +282,27 @@ function catalogTimestamp() {
 
 function compareText(path, expected) {
   if (!existsSync(path) || readFileSync(path, "utf8") !== expected) {
+    fail(`${relative(repository, path)} is stale; run node scripts/build-catalog.mjs`);
+  }
+}
+
+function compareCatalog(path, expected) {
+  if (!existsSync(path)) {
+    fail(`${relative(repository, path)} is stale; run node scripts/build-catalog.mjs`);
+  }
+  const actualValue = strictObject(
+    JSON.parse(readFileSync(path, "utf8")),
+    relative(repository, path),
+  );
+  if (
+    typeof actualValue.generatedAt !== "string"
+    || Number.isNaN(Date.parse(actualValue.generatedAt))
+  ) {
+    fail(`${relative(repository, path)} has an invalid generatedAt timestamp`);
+  }
+  const expectedValue = JSON.parse(expected);
+  expectedValue.generatedAt = actualValue.generatedAt;
+  if (`${JSON.stringify(expectedValue, null, 2)}\n` !== readFileSync(path, "utf8")) {
     fail(`${relative(repository, path)} is stale; run node scripts/build-catalog.mjs`);
   }
 }
