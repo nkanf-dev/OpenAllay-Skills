@@ -2,7 +2,7 @@
   "diagnose-missing-recipe": "0.2.0",
   "explain-machine-usage": "0.2.0",
   "guide-ftb-progression": "0.2.0",
-  "inspect-game-state": "0.2.0",
+  "inspect-game-state": "0.2.1",
   "run-game-commands": "0.2.0",
   "search-guide-books": "0.2.0"
 }
