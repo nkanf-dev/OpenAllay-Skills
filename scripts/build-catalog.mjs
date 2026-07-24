@@ -34,6 +34,13 @@ const allowedTools = new Set([
   "openallay:run_javascript",
   "openallay:load_skill",
 ]);
+const crcTable = Array.from({ length: 256 }, (_, value) => {
+  let crc = value;
+  for (let bit = 0; bit < 8; bit += 1) {
+    crc = (crc >>> 1) ^ (crc & 1 ? 0xedb88320 : 0);
+  }
+  return crc >>> 0;
+});
 const generatedAt = catalogTimestamp();
 const temporary = mkdtempSync(join(tmpdir(), "openallay-skills-"));
 
@@ -242,14 +249,6 @@ function deterministicZip(root) {
   end.writeUInt16LE(0, 20);
   return Buffer.concat([...localParts, centralDirectory, end]);
 }
-
-const crcTable = Array.from({ length: 256 }, (_, value) => {
-  let crc = value;
-  for (let bit = 0; bit < 8; bit += 1) {
-    crc = (crc >>> 1) ^ (crc & 1 ? 0xedb88320 : 0);
-  }
-  return crc >>> 0;
-});
 
 function crc32(data) {
   let crc = 0xffffffff;

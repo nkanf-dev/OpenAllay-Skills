@@ -7,7 +7,7 @@
       "id": "diagnose-missing-recipe",
       "version": "0.2.0",
       "archive": "https://raw.githubusercontent.com/nkanf-dev/OpenAllay-Skills/main/packages/diagnose-missing-recipe-0.2.0.zip",
-      "sha256": "e2d00df69dd16e9ec2db181ae85e1b4312a492a9de1385ac3f9cdd7c262914a4",
+      "sha256": "d93fd1edb27307ea2b08b7c0699d35ad4606a6b06ed9fe794b0a405d4fc70e47",
       "compatibility": {
         "minecraft": "26.2",
         "openallayApi": "0.2"
@@ -18,7 +18,7 @@
       "id": "explain-machine-usage",
       "version": "0.2.0",
       "archive": "https://raw.githubusercontent.com/nkanf-dev/OpenAllay-Skills/main/packages/explain-machine-usage-0.2.0.zip",
-      "sha256": "b9566f9fb9213c8ed3ef01453cd62a6df19f7d12a1913af414997b0f590047d6",
+      "sha256": "1906f19df138f85a1f88e7bbaffb1894af19a14384a7e2ebe519a47017b22064",
       "compatibility": {
         "minecraft": "26.2",
         "openallayApi": "0.2"
@@ -29,7 +29,7 @@
       "id": "guide-ftb-progression",
       "version": "0.2.0",
       "archive": "https://raw.githubusercontent.com/nkanf-dev/OpenAllay-Skills/main/packages/guide-ftb-progression-0.2.0.zip",
-      "sha256": "56498f322b0c90dade03c16bf9bf46b4a9922bf2a406434685cc15ef01be1699",
+      "sha256": "0655501429ec6f6163cba46e8ffa67f137c3bf6959d98040098367c3d8239ad9",
       "compatibility": {
         "minecraft": "26.2",
         "openallayApi": "0.2"
@@ -40,7 +40,7 @@
       "id": "inspect-game-state",
       "version": "0.2.0",
       "archive": "https://raw.githubusercontent.com/nkanf-dev/OpenAllay-Skills/main/packages/inspect-game-state-0.2.0.zip",
-      "sha256": "692e160534c4018b809383876376e236eb779b1d782165488166959b19a82911",
+      "sha256": "33f7ffcf902f46fdff80e03dc063e08d8e99efe09dcfbfb14e2a747dd2622256",
       "compatibility": {
         "minecraft": "26.2",
         "openallayApi": "0.2"
@@ -51,7 +51,7 @@
       "id": "run-game-commands",
       "version": "0.2.0",
       "archive": "https://raw.githubusercontent.com/nkanf-dev/OpenAllay-Skills/main/packages/run-game-commands-0.2.0.zip",
-      "sha256": "544bafa346be1a0e11be0f3937e7fdfc24afd85bc3378dd63a95533f2f46ae81",
+      "sha256": "6f0c900d869816134cd1fd5d3378ca761b394f49c472f628e8d94000945dc6c5",
       "compatibility": {
         "minecraft": "26.2",
         "openallayApi": "0.2"
@@ -62,7 +62,7 @@
       "id": "search-guide-books",
       "version": "0.2.0",
       "archive": "https://raw.githubusercontent.com/nkanf-dev/OpenAllay-Skills/main/packages/search-guide-books-0.2.0.zip",
-      "sha256": "737d6e4882d2fc71b537b243b6f4c1276a67147cf86569cc43f006db3b22ab24",
+      "sha256": "613ca59ce2ee5b2d2c7f345ff5fe966196316a994adc4536422966bfc37dbb48",
       "compatibility": {
         "minecraft": "26.2",
         "openallayApi": "0.2"
