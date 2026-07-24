@@ -9,7 +9,6 @@ import {
   readdirSync,
   rmSync,
   statSync,
-  utimesSync,
   writeFileSync,
 } from "node:fs";
 import { createHash } from "node:crypto";
@@ -58,21 +57,9 @@ try {
       fail(`Invalid version for ${id}`);
     }
 
-    const staging = join(temporary, "staging", id);
-    mkdirSync(staging, { recursive: true });
-    cpSync(join(skillRoot, id), staging, { recursive: true });
-    normalizeTimes(staging);
-
     const archiveName = `${id}-${version}.zip`;
     const archive = join(generatedPackages, archiveName);
-    const files = walkFiles(staging).map((path) => relative(staging, path)).sort();
-    const zipped = spawnSync("zip", ["-X", "-q", archive, ...files], {
-      cwd: staging,
-      encoding: "utf8",
-    });
-    if (zipped.status !== 0) {
-      fail(`Unable to build ${archiveName}: ${zipped.stderr || zipped.stdout}`);
-    }
+    writeFileSync(archive, deterministicZip(join(skillRoot, id)));
     const sha256 = createHash("sha256").update(readFileSync(archive)).digest("hex");
     entries.push({
       id,
@@ -195,31 +182,81 @@ function walkFiles(root) {
   return files;
 }
 
-function normalizeTimes(root) {
-  const epoch = new Date("1980-01-01T00:00:00.000Z");
-  for (const path of walkFiles(root)) {
-    utimesSync(path, epoch, epoch);
+function deterministicZip(root) {
+  const files = walkFiles(root).map((path) => ({
+    name: relative(root, path).replaceAll("\\", "/"),
+    data: readFileSync(path),
+  }));
+  const localParts = [];
+  const centralParts = [];
+  let offset = 0;
+
+  for (const file of files) {
+    const name = Buffer.from(file.name, "utf8");
+    const crc = crc32(file.data);
+    const local = Buffer.alloc(30);
+    local.writeUInt32LE(0x04034b50, 0);
+    local.writeUInt16LE(20, 4);
+    local.writeUInt16LE(0x0800, 6);
+    local.writeUInt16LE(0, 8);
+    local.writeUInt16LE(0, 10);
+    local.writeUInt16LE(0x0021, 12);
+    local.writeUInt32LE(crc, 14);
+    local.writeUInt32LE(file.data.length, 18);
+    local.writeUInt32LE(file.data.length, 22);
+    local.writeUInt16LE(name.length, 26);
+    local.writeUInt16LE(0, 28);
+    localParts.push(local, name, file.data);
+
+    const central = Buffer.alloc(46);
+    central.writeUInt32LE(0x02014b50, 0);
+    central.writeUInt16LE(20, 4);
+    central.writeUInt16LE(20, 6);
+    central.writeUInt16LE(0x0800, 8);
+    central.writeUInt16LE(0, 10);
+    central.writeUInt16LE(0, 12);
+    central.writeUInt16LE(0x0021, 14);
+    central.writeUInt32LE(crc, 16);
+    central.writeUInt32LE(file.data.length, 20);
+    central.writeUInt32LE(file.data.length, 24);
+    central.writeUInt16LE(name.length, 28);
+    central.writeUInt16LE(0, 30);
+    central.writeUInt16LE(0, 32);
+    central.writeUInt16LE(0, 34);
+    central.writeUInt16LE(0, 36);
+    central.writeUInt32LE(0, 38);
+    central.writeUInt32LE(offset, 42);
+    centralParts.push(central, name);
+    offset += local.length + name.length + file.data.length;
   }
-  const directories = [root];
-  for (const path of readdirSync(root).map((name) => join(root, name))) {
-    if (statSync(path).isDirectory()) {
-      directories.push(...walkDirectories(path));
-    }
-  }
-  for (const path of directories.reverse()) {
-    utimesSync(path, epoch, epoch);
-  }
+
+  const centralDirectory = Buffer.concat(centralParts);
+  const end = Buffer.alloc(22);
+  end.writeUInt32LE(0x06054b50, 0);
+  end.writeUInt16LE(0, 4);
+  end.writeUInt16LE(0, 6);
+  end.writeUInt16LE(files.length, 8);
+  end.writeUInt16LE(files.length, 10);
+  end.writeUInt32LE(centralDirectory.length, 12);
+  end.writeUInt32LE(offset, 16);
+  end.writeUInt16LE(0, 20);
+  return Buffer.concat([...localParts, centralDirectory, end]);
 }
 
-function walkDirectories(root) {
-  const directories = [root];
-  for (const name of readdirSync(root).sort()) {
-    const path = join(root, name);
-    if (statSync(path).isDirectory()) {
-      directories.push(...walkDirectories(path));
-    }
+const crcTable = Array.from({ length: 256 }, (_, value) => {
+  let crc = value;
+  for (let bit = 0; bit < 8; bit += 1) {
+    crc = (crc >>> 1) ^ (crc & 1 ? 0xedb88320 : 0);
   }
-  return directories;
+  return crc >>> 0;
+});
+
+function crc32(data) {
+  let crc = 0xffffffff;
+  for (const byte of data) {
+    crc = (crc >>> 8) ^ crcTable[(crc ^ byte) & 0xff];
+  }
+  return (crc ^ 0xffffffff) >>> 0;
 }
 
 function catalogTimestamp() {
