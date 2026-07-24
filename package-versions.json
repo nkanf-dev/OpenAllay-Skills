@@ -1,8 +1,8 @@
 {
-  "diagnose-missing-recipe": "0.2.0",
-  "explain-machine-usage": "0.2.0",
-  "guide-ftb-progression": "0.2.0",
-  "inspect-game-state": "0.2.1",
-  "run-game-commands": "0.2.0",
-  "search-guide-books": "0.2.0"
+  "diagnose-missing-recipe": "0.2.1",
+  "explain-machine-usage": "0.2.1",
+  "guide-ftb-progression": "0.2.1",
+  "inspect-game-state": "0.2.2",
+  "run-game-commands": "0.2.1",
+  "search-guide-books": "0.2.1"
 }

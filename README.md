@@ -33,12 +33,14 @@ Each Skill must:
 1. solve a genuinely vertical task rather than restating OpenAllay's core
    JavaScript API;
 2. use a lowercase kebab-case directory matching its `name`;
-3. declare only tools that OpenAllay exposes;
-4. keep executable scripts, network access, arbitrary paths, and permissions
+3. declare its package version as the quoted string metadata key
+   `openallay/version`, matching `package-versions.json`;
+4. declare only tools that OpenAllay exposes;
+5. keep executable scripts, network access, arbitrary paths, and permissions
    out of the package;
-5. put optional deep material in `references/` and tell the Agent when to load
+6. put optional deep material in `references/` and tell the Agent when to load
    it;
-6. avoid benchmark-specific answers or examples that hard-code one test result.
+7. avoid benchmark-specific answers or examples that hard-code one test result.
 
 After editing a Skill, bump its version in `package-versions.json` and run:
 

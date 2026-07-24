@@ -58,11 +58,11 @@ try {
 
   for (const id of ids) {
     validateId(id, "Skill directory");
-    validateSkill(id);
     const version = versions[id];
     if (typeof version !== "string" || version.trim() === "") {
       fail(`Invalid version for ${id}`);
     }
+    validateSkill(id, version);
 
     const archiveName = `${id}-${version}.zip`;
     const archive = join(generatedPackages, archiveName);
@@ -105,7 +105,7 @@ try {
   rmSync(temporary, { recursive: true, force: true });
 }
 
-function validateSkill(id) {
+function validateSkill(id, packageVersion) {
   const root = join(skillRoot, id);
   const entry = join(root, "SKILL.md");
   if (!existsSync(entry)) {
@@ -141,6 +141,14 @@ function validateSkill(id) {
   }
   if (!scalars.get("description")) {
     fail(`${id}/SKILL.md requires a description`);
+  }
+  const metadataVersion = match[1].match(
+    /(?:^|\n)metadata:\s*\n(?:[ \t]+[^\n]*\n)*?[ \t]+openallay\/version:\s*(["'])([^"']+)\1(?:\n|$)/,
+  )?.[2];
+  if (metadataVersion !== packageVersion) {
+    fail(
+      `${id}/SKILL.md metadata openallay/version must be the quoted package version ${packageVersion}`,
+    );
   }
   for (const tool of (scalars.get("allowed-tools") ?? "").split(/[\s,]+/)) {
     if (tool && !allowedTools.has(tool)) {
