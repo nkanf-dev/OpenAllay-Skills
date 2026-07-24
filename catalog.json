@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "kind": "skill",
+  "generatedAt": "2026-07-24T20:09:36.000Z",
+  "packages": [
+    {
+      "id": "diagnose-missing-recipe",
+      "version": "0.2.0",
+      "archive": "https://raw.githubusercontent.com/nkanf-dev/OpenAllay-Skills/main/packages/diagnose-missing-recipe-0.2.0.zip",
+      "sha256": "e2d00df69dd16e9ec2db181ae85e1b4312a492a9de1385ac3f9cdd7c262914a4",
+      "compatibility": {
+        "minecraft": "26.2",
+        "openallayApi": "0.2"
+      },
+      "source": "https://github.com/nkanf-dev/OpenAllay-Skills/tree/main/skills/diagnose-missing-recipe"
+    },
+    {
+      "id": "explain-machine-usage",
+      "version": "0.2.0",
+      "archive": "https://raw.githubusercontent.com/nkanf-dev/OpenAllay-Skills/main/packages/explain-machine-usage-0.2.0.zip",
+      "sha256": "b9566f9fb9213c8ed3ef01453cd62a6df19f7d12a1913af414997b0f590047d6",
+      "compatibility": {
+        "minecraft": "26.2",
+        "openallayApi": "0.2"
+      },
+      "source": "https://github.com/nkanf-dev/OpenAllay-Skills/tree/main/skills/explain-machine-usage"
+    },
+    {
+      "id": "guide-ftb-progression",
+      "version": "0.2.0",
+      "archive": "https://raw.githubusercontent.com/nkanf-dev/OpenAllay-Skills/main/packages/guide-ftb-progression-0.2.0.zip",
+      "sha256": "56498f322b0c90dade03c16bf9bf46b4a9922bf2a406434685cc15ef01be1699",
+      "compatibility": {
+        "minecraft": "26.2",
+        "openallayApi": "0.2"
+      },
+      "source": "https://github.com/nkanf-dev/OpenAllay-Skills/tree/main/skills/guide-ftb-progression"
+    },
+    {
+      "id": "inspect-game-state",
+      "version": "0.2.0",
+      "archive": "https://raw.githubusercontent.com/nkanf-dev/OpenAllay-Skills/main/packages/inspect-game-state-0.2.0.zip",
+      "sha256": "692e160534c4018b809383876376e236eb779b1d782165488166959b19a82911",
+      "compatibility": {
+        "minecraft": "26.2",
+        "openallayApi": "0.2"
+      },
+      "source": "https://github.com/nkanf-dev/OpenAllay-Skills/tree/main/skills/inspect-game-state"
+    },
+    {
+      "id": "run-game-commands",
+      "version": "0.2.0",
+      "archive": "https://raw.githubusercontent.com/nkanf-dev/OpenAllay-Skills/main/packages/run-game-commands-0.2.0.zip",
+      "sha256": "544bafa346be1a0e11be0f3937e7fdfc24afd85bc3378dd63a95533f2f46ae81",
+      "compatibility": {
+        "minecraft": "26.2",
+        "openallayApi": "0.2"
+      },
+      "source": "https://github.com/nkanf-dev/OpenAllay-Skills/tree/main/skills/run-game-commands"
+    },
+    {
+      "id": "search-guide-books",
+      "version": "0.2.0",
+      "archive": "https://raw.githubusercontent.com/nkanf-dev/OpenAllay-Skills/main/packages/search-guide-books-0.2.0.zip",
+      "sha256": "737d6e4882d2fc71b537b243b6f4c1276a67147cf86569cc43f006db3b22ab24",
+      "compatibility": {
+        "minecraft": "26.2",
+        "openallayApi": "0.2"
+      },
+      "source": "https://github.com/nkanf-dev/OpenAllay-Skills/tree/main/skills/search-guide-books"
+    }
+  ]
+}
