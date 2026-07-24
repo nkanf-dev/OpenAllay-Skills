@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "kind": "skill",
-  "generatedAt": "2026-07-24T20:09:36.000Z",
+  "generatedAt": "2026-07-24T22:12:46.000Z",
   "packages": [
     {
       "id": "diagnose-missing-recipe",
@@ -38,9 +38,9 @@
     },
     {
       "id": "inspect-game-state",
-      "version": "0.2.0",
-      "archive": "https://raw.githubusercontent.com/nkanf-dev/OpenAllay-Skills/main/packages/inspect-game-state-0.2.0.zip",
-      "sha256": "33f7ffcf902f46fdff80e03dc063e08d8e99efe09dcfbfb14e2a747dd2622256",
+      "version": "0.2.1",
+      "archive": "https://raw.githubusercontent.com/nkanf-dev/OpenAllay-Skills/main/packages/inspect-game-state-0.2.1.zip",
+      "sha256": "99a737e31e107703eccb4883cbabd1e48fc8067c3e8922712bcaa5e5f7a2b43a",
       "compatibility": {
         "minecraft": "26.2",
         "openallayApi": "0.2"
