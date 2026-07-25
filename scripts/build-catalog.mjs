@@ -25,6 +25,10 @@ const versions = strictObject(
   JSON.parse(readFileSync(join(repository, "package-versions.json"), "utf8")),
   "package-versions.json",
 );
+const metadata = strictObject(
+  JSON.parse(readFileSync(join(repository, "package-metadata.json"), "utf8")),
+  "package-metadata.json",
+);
 const idPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const executableExtensions = new Set([
   "sh", "bash", "zsh", "fish", "command", "bat", "cmd", "ps1", "exe", "dll",
@@ -55,6 +59,9 @@ try {
   if (Object.keys(versions).sort().join("\0") !== ids.join("\0")) {
     fail("package-versions.json must contain exactly one version for every Skill");
   }
+  if (Object.keys(metadata).sort().join("\0") !== ids.join("\0")) {
+    fail("package-metadata.json must contain exactly one entry for every Skill");
+  }
 
   for (const id of ids) {
     validateId(id, "Skill directory");
@@ -62,6 +69,7 @@ try {
     if (typeof version !== "string" || version.trim() === "") {
       fail(`Invalid version for ${id}`);
     }
+    const packageMetadata = validatePackageMetadata(id, metadata[id]);
     validateSkill(id, version);
 
     const archiveName = `${id}-${version}.zip`;
@@ -70,6 +78,9 @@ try {
     const sha256 = createHash("sha256").update(readFileSync(archive)).digest("hex");
     entries.push({
       id,
+      displayName: packageMetadata.displayName,
+      description: packageMetadata.description,
+      publisher: packageMetadata.publisher,
       version,
       archive:
         `https://raw.githubusercontent.com/nkanf-dev/OpenAllay-Skills/main/packages/${archiveName}`,
@@ -84,7 +95,7 @@ try {
   }
 
   const catalog = `${JSON.stringify({
-    schemaVersion: 1,
+    schemaVersion: 2,
     kind: "skill",
     generatedAt,
     packages: entries,
@@ -103,6 +114,20 @@ try {
   }
 } finally {
   rmSync(temporary, { recursive: true, force: true });
+}
+
+function validatePackageMetadata(id, value) {
+  const entry = strictObject(value, `package-metadata.json ${id}`);
+  const expected = ["description", "displayName", "publisher"];
+  if (Object.keys(entry).sort().join("\0") !== expected.join("\0")) {
+    fail(`package-metadata.json ${id} fields do not match the schema`);
+  }
+  for (const field of expected) {
+    if (typeof entry[field] !== "string" || entry[field].trim() === "") {
+      fail(`package-metadata.json ${id}.${field} must be a non-blank string`);
+    }
+  }
+  return entry;
 }
 
 function validateSkill(id, packageVersion) {
@@ -269,7 +294,15 @@ function crc32(data) {
 function catalogTimestamp() {
   const result = spawnSync(
     "git",
-    ["log", "-1", "--format=%cI", "--", "skills", "package-versions.json"],
+    [
+      "log",
+      "-1",
+      "--format=%cI",
+      "--",
+      "skills",
+      "package-versions.json",
+      "package-metadata.json",
+    ],
     { cwd: repository, encoding: "utf8" },
   );
   const value = result.status === 0 ? result.stdout.trim() : "";

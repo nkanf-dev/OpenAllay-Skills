@@ -7,7 +7,7 @@
   "required": ["schemaVersion", "kind", "generatedAt", "packages"],
   "properties": {
     "schemaVersion": {
-      "const": 1
+      "const": 2
     },
     "kind": {
       "const": "skill"
@@ -29,6 +29,9 @@
       "additionalProperties": false,
       "required": [
         "id",
+        "displayName",
+        "description",
+        "publisher",
         "version",
         "archive",
         "sha256",
@@ -39,6 +42,18 @@
         "id": {
           "type": "string",
           "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "publisher": {
+          "type": "string",
+          "minLength": 1
         },
         "version": {
           "type": "string",

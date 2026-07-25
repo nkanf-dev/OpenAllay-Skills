@@ -23,7 +23,9 @@ changing this repository.
 - `skills/<skill-name>/SKILL.md` contains Agent Skills-compatible instructions.
 - `references/` contains progressively loaded supporting documents.
 - `packages/` contains deterministic ZIP archives consumed by OpenAllay.
-- `catalog.json` is the strict schema-1 catalog used by the game.
+- `package-metadata.json` contains player-facing names, descriptions, and
+  publishers displayed before installation.
+- `catalog.json` is the strict schema-2 catalog used by the game.
 - `schema/catalog.schema.json` documents the catalog contract.
 
 ## Contributing
@@ -35,12 +37,13 @@ Each Skill must:
 2. use a lowercase kebab-case directory matching its `name`;
 3. declare its package version as the quoted string metadata key
    `openallay/version`, matching `package-versions.json`;
-4. declare only tools that OpenAllay exposes;
-5. keep executable scripts, network access, arbitrary paths, and permissions
+4. add concise player-facing metadata in `package-metadata.json`;
+5. declare only tools that OpenAllay exposes;
+6. keep executable scripts, network access, arbitrary paths, and permissions
    out of the package;
-6. put optional deep material in `references/` and tell the Agent when to load
+7. put optional deep material in `references/` and tell the Agent when to load
    it;
-7. avoid benchmark-specific answers or examples that hard-code one test result.
+8. avoid benchmark-specific answers or examples that hard-code one test result.
 
 After editing a Skill, bump its version in `package-versions.json` and run:
 

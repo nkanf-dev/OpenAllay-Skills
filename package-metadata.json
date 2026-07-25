@@ -1,0 +1,32 @@
+{
+  "diagnose-missing-recipe": {
+    "displayName": "Diagnose Missing Recipes",
+    "description": "Find out why an expected crafting or processing recipe is missing from the current pack.",
+    "publisher": "OpenAllay Community"
+  },
+  "explain-machine-usage": {
+    "displayName": "Explain Machine Usage",
+    "description": "Learn how to obtain, place, power, configure, and automate a modded machine.",
+    "publisher": "OpenAllay Community"
+  },
+  "guide-ftb-progression": {
+    "displayName": "Guide FTB Progression",
+    "description": "Follow visible FTB Quests prerequisites, branches, and rewards.",
+    "publisher": "OpenAllay Community"
+  },
+  "inspect-game-state": {
+    "displayName": "Inspect Game State",
+    "description": "Correlate settings, F3 diagnostics, packs, mods, and other player-visible game state.",
+    "publisher": "OpenAllay Community"
+  },
+  "run-game-commands": {
+    "displayName": "Run Game Commands",
+    "description": "Discover and execute Minecraft commands through OpenAllay's experimental command capability.",
+    "publisher": "OpenAllay Community"
+  },
+  "search-guide-books": {
+    "displayName": "Search Guide Books",
+    "description": "Find relevant entries in Patchouli and other indexed in-game guide books.",
+    "publisher": "OpenAllay Community"
+  }
+}
