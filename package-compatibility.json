@@ -1,0 +1,26 @@
+{
+  "diagnose-missing-recipe": {
+    "minecraft": "[1.12.2,26.3]",
+    "openallayApi": "0.2"
+  },
+  "explain-machine-usage": {
+    "minecraft": "[1.12.2,26.3]",
+    "openallayApi": "0.2"
+  },
+  "guide-ftb-progression": {
+    "minecraft": "[1.12.2,26.3]",
+    "openallayApi": "0.2"
+  },
+  "inspect-game-state": {
+    "minecraft": "[1.12.2,26.3]",
+    "openallayApi": "0.2"
+  },
+  "run-game-commands": {
+    "minecraft": "[1.12.2,26.3]",
+    "openallayApi": "0.2"
+  },
+  "search-guide-books": {
+    "minecraft": "[1.12.2,26.3]",
+    "openallayApi": "0.2"
+  }
+}

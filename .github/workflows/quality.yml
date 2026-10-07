@@ -17,5 +17,7 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: "22"
+      - name: Validate per-Skill compatibility
+        run: node --test scripts/package-compatibility.test.mjs
       - name: Validate deterministic Skill catalog
         run: node scripts/build-catalog.mjs --check

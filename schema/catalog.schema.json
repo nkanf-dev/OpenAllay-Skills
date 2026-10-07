@@ -4,7 +4,12 @@
   "title": "OpenAllay Skill Community Catalog",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "kind", "generatedAt", "packages"],
+  "required": [
+    "schemaVersion",
+    "kind",
+    "generatedAt",
+    "packages"
+  ],
   "properties": {
     "schemaVersion": {
       "const": 2
@@ -71,10 +76,15 @@
         "compatibility": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["minecraft", "openallayApi"],
+          "required": [
+            "minecraft",
+            "openallayApi"
+          ],
           "properties": {
             "minecraft": {
-              "const": "26.2"
+              "type": "string",
+              "pattern": "^(?:[0-9]+(?:\\.[0-9]+)*|[\\[(][0-9]+(?:\\.[0-9]+)*,[0-9]+(?:\\.[0-9]+)*[\\])])$",
+              "description": "Exact numeric Minecraft version or finite Maven interval; publisher validation also rejects reversed and empty intervals."
             },
             "openallayApi": {
               "const": "0.2"

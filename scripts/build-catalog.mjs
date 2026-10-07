@@ -17,6 +17,8 @@ import { dirname, join, relative, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
+import { validateCompatibility } from "./package-compatibility.mjs";
+
 const repository = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const check = process.argv.includes("--check");
 const skillRoot = join(repository, "skills");
@@ -28,6 +30,10 @@ const versions = strictObject(
 const metadata = strictObject(
   JSON.parse(readFileSync(join(repository, "package-metadata.json"), "utf8")),
   "package-metadata.json",
+);
+const compatibility = strictObject(
+  JSON.parse(readFileSync(join(repository, "package-compatibility.json"), "utf8")),
+  "package-compatibility.json",
 );
 const idPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const executableExtensions = new Set([
@@ -63,6 +69,10 @@ try {
     fail("package-metadata.json must contain exactly one entry for every Skill");
   }
 
+  if (Object.keys(compatibility).sort().join("\0") !== ids.join("\0")) {
+    fail("package-compatibility.json must contain exactly one entry for every Skill");
+  }
+
   for (const id of ids) {
     validateId(id, "Skill directory");
     const version = versions[id];
@@ -70,6 +80,9 @@ try {
       fail(`Invalid version for ${id}`);
     }
     const packageMetadata = validatePackageMetadata(id, metadata[id]);
+    const packageCompatibility = validateCompatibility(
+      compatibility[id], `package-compatibility.json ${id}`,
+    );
     validateSkill(id, version);
 
     const archiveName = `${id}-${version}.zip`;
@@ -85,10 +98,7 @@ try {
       archive:
         `https://raw.githubusercontent.com/nkanf-dev/OpenAllay-Skills/main/packages/${archiveName}`,
       sha256,
-      compatibility: {
-        minecraft: "26.2",
-        openallayApi: "0.2",
-      },
+      compatibility: packageCompatibility,
       source:
         `https://github.com/nkanf-dev/OpenAllay-Skills/tree/main/skills/${id}`,
     });
@@ -302,6 +312,7 @@ function catalogTimestamp() {
       "skills",
       "package-versions.json",
       "package-metadata.json",
+      "package-compatibility.json",
     ],
     { cwd: repository, encoding: "utf8" },
   );
