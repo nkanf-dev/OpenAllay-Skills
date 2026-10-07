@@ -1,59 +1,101 @@
 # OpenAllay Skills
 
-This is the public catalog for community-distributed
-[OpenAllay](https://github.com/nkanf-dev/OpenAllay) Skills.
+Community workflows and reference material for
+[OpenAllay](https://github.com/nkanf-dev/OpenAllay), your AI companion in Minecraft.
 
-Skills are focused instructions for a particular Minecraft task: diagnosing a
-missing recipe, explaining a machine, following quest progression, searching a
-guide book, or using an explicitly enabled experimental capability. OpenAllay's
-core JavaScript object model is intentionally not duplicated here.
+Use Skills to diagnose missing recipes, understand machines, follow quest
+progression, search guide books, and inspect your game. Skills add focused
+instructions to the Agent. OpenAllay loads their supporting references when
+needed.
 
-## Install in Minecraft
+## Install and update in Minecraft
 
-Open **OpenAllay Settings → Skills → Community**, refresh the catalog, select a
-compatible Skill, and install it. You can also import a Skill directory or ZIP
-from the same page.
+1. Install [the latest OpenAllay release](https://github.com/nkanf-dev/OpenAllay/releases/latest)
+   for your Minecraft version and loader. Follow its installation instructions
+   for the required Java runtime and loader-specific setup.
+2. Open **OpenAllay Settings → Skills → Community**.
+3. Select **Refresh community**, choose a compatible package, and select
+   **Install Skill**. Select **Update Skill** when an update is available.
+4. Use the **Installed** tab to enable a Skill and inspect its instructions.
 
-Installed Skills remain ordinary Markdown packages under OpenAllay's
-configuration directory. They can be inspected and locally overridden without
-changing this repository.
+To import your own package, enter its local ZIP or directory path in the
+Community page and select **Import**. A package directory contains `SKILL.md`
+at its root, with optional `references/` and `assets/` directories.
+
+Installed packages live at `config/openallay/skills/<skill-name>/`. Built-in
+and Extension-provided Skills stay in their original packages. Select
+**Create local override** to edit a local copy. Deleting the override restores
+its bundled instructions. Valid changes apply to future requests.
+
+## Write a Skill
+
+Choose one task that needs domain knowledge or several related steps. State
+when the Agent should load the Skill, which evidence to use, and when to load
+each reference. Use the actual game data and APIs available in the player's
+instance. Keep Minecraft-version-specific command syntax in focused references.
+
+Each package uses this layout:
+
+```text
+skills/<skill-name>/
+  SKILL.md
+  references/
+  assets/
+```
+
+`SKILL.md` starts with YAML frontmatter containing `name` and `description`.
+The name uses lowercase kebab-case and matches its directory. The description
+explains when to use the Skill. Community packages also declare their quoted
+package version under `metadata.openallay/version`, matching
+`package-versions.json`.
+
+Use only the Tools declared by the framework. `allowed-tools` can name
+`openallay:run_javascript` and `openallay:load_skill`. Skills provide Markdown
+instructions and supporting assets. Host and Extension APIs perform operations
+under the player's enabled settings and Minecraft permissions.
+
+OpenAllay's **Skill API 0.2** and **Extension API 0.4.0** are separate contracts.
+Skill catalog compatibility uses the Skill API. Extension SDK versions belong
+to Extension JARs. Skill package versions are independent of OpenAllay releases.
 
 ## Repository layout
 
-- `skills/<skill-name>/SKILL.md` contains Agent Skills-compatible instructions.
-- `references/` contains progressively loaded supporting documents.
-- `packages/` contains deterministic ZIP archives consumed by OpenAllay.
-- `package-metadata.json` contains player-facing names, descriptions, and
-  publishers displayed before installation.
-- `catalog.json` is the strict schema-2 catalog used by the game.
-- `schema/catalog.schema.json` documents the catalog contract.
+- `skills/<skill-name>/SKILL.md`: Agent Skills-compatible instructions.
+- Package-local `references/`: progressively loaded supporting documents.
+- `packages/`: deterministic ZIP archives consumed by OpenAllay.
+- `package-metadata.json`: player-facing names, descriptions, and publishers.
+- `package-versions.json`: independently released Skill package versions.
+- `package-compatibility.json`: each Skill's Minecraft selector and Skill API requirement.
+- `catalog.json`: the community catalog used by the game.
+- `schema/catalog.schema.json`: the public catalog contract.
 
 ## Contributing
 
-Each Skill must:
-
-1. solve a genuinely vertical task rather than restating OpenAllay's core
-   JavaScript API;
-2. use a lowercase kebab-case directory matching its `name`;
-3. declare its package version as the quoted string metadata key
-   `openallay/version`, matching `package-versions.json`;
-4. add concise player-facing metadata in `package-metadata.json`;
-5. declare only tools that OpenAllay exposes;
-6. keep executable scripts, network access, arbitrary paths, and permissions
-   out of the package;
-7. put optional deep material in `references/` and tell the Agent when to load
-   it;
-8. avoid benchmark-specific answers or examples that hard-code one test result.
-
-After editing a Skill, bump its version in `package-versions.json` and run:
+1. Write a focused workflow instead of repeating the core JavaScript API.
+2. Match the directory name, frontmatter `name`, and catalog package ID.
+3. Add concise names and descriptions to `package-metadata.json`.
+4. Set the package's supported Minecraft selector in `package-compatibility.json`.
+   Publisher metadata uses an exact numeric version or one finite Maven interval,
+   such as `[1.12.2,26.3]`, covered by the workflow's actual host APIs. Core checks
+   the selector with its shared compatibility parser. Keep the Skill API
+   requirement at `0.2`. State version-specific syntax and optional integration
+   requirements in the instructions.
+5. Keep executable files, credentials, and arbitrary filesystem paths out of
+   the package.
+6. Link each reference from `SKILL.md` and explain when to load it.
+7. Check examples against real host data. Use the player's task and instance
+   instead of hard-coded benchmark answers.
+8. After changing package content, update its quoted `openallay/version` and
+   its entry in `package-versions.json`, then regenerate and check packages:
 
 ```bash
 node scripts/build-catalog.mjs
 node scripts/build-catalog.mjs --check
 ```
 
-The quality workflow verifies package structure, deterministic archives,
-checksums, catalog ordering, and the published JSON schema.
+The quality workflow checks package structure, deterministic archives,
+checksums, catalog ordering, and the published JSON schema. README-only changes
+leave package versions and archives unchanged.
 
 ## License
 
